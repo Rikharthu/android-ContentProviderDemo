@@ -2,11 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rikharthu.contentproviderdemo">
 
-    <!--a permission that a client is required to have in order to use our content provider -->
+    <!-- a permission that a client is required to have in order to use our content provider -->
     <permission android:name="com.example.rikharthu.contentproviderdemo.READ_WRITE" />
 
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+
 
     <application
         android:name=".App"
@@ -16,19 +29,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <provider
             android:name=".data.NotesContentProvider"
             android:authorities="com.example.rikharthu.contentproviderdemo.provider"
             android:exported="true"
             android:permission="com.example.rikharthu.contentproviderdemo.READ_WRITE">
+
             <!--
             More info about permissions
             https://developer.android.com/guide/topics/manifest/path-permission-element.html
@@ -36,6 +44,40 @@
             -->
         </provider>
 
+        <activity android:name=".LandingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".AuthenticatorActivity" />
+
+        <service
+            android:name=".AuthenticatorService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <!--SyncAdapter is a service handled by Android itself, thus it needs to be registered
+        in the manifest-->
+        <service
+            android:name=".service.NoteSyncService"
+            android:process=":sync"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/note_sync_adapter" />
+        </service>
     </application>
 
 </manifest>

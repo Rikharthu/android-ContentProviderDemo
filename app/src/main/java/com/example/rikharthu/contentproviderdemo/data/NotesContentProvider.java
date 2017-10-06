@@ -113,6 +113,7 @@ public class NotesContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
+        Timber.d("Inserting note");
         switch (MATCHER.match(uri)) {
             case CODE_NOTE_DIR:
                 final Context context = getContext();

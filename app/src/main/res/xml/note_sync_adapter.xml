@@ -1,0 +1,7 @@
+<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accountType="com.example.rikharthu.contentproviderdemo"
+    android:isAlwaysSyncable="true"
+    android:contentAuthority="com.example.rikharthu.contentproviderdemo.provider" /><!--
+    This means that NoteSyncService will use the NoteContentProvider's authority
+    and will need a com.example.rikharthu.contentproviderdemo.provider account
+    -->

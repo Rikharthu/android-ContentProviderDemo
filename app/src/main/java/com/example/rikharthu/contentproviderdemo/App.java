@@ -2,8 +2,10 @@ package com.example.rikharthu.contentproviderdemo;
 
 import android.app.Application;
 import android.arch.persistence.room.Room;
+import android.content.ContentResolver;
 import android.content.Context;
 
+import com.example.rikharthu.contentproviderdemo.data.NotesContentProvider;
 import com.example.rikharthu.contentproviderdemo.data.database.AppDatabase;
 import com.example.rikharthu.contentproviderdemo.data.models.Note;
 
