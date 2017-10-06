@@ -25,7 +25,8 @@ import timber.log.Timber;
 public class NotesContentProvider extends ContentProvider {
 
     /**
-     * The authority of this content provider
+     * The authority of this content provider. {@link android.content.ContentResolver} parses this out of
+     * the URI and uses it to 'resolve' the provider by comparing the authority to a system table of known providers
      */
     public static final String AUTHORITY = "com.example.rikharthu.contentproviderdemo.provider";
 
@@ -47,7 +48,12 @@ public class NotesContentProvider extends ContentProvider {
     static {
         // Register URI in our URI matcher
         MATCHER.addURI(AUTHORITY, Note.TABLE_NAME, CODE_NOTE_DIR);
+        // TODO comments about wildcard here
         MATCHER.addURI(AUTHORITY, Note.TABLE_NAME + "/*", CODE_NOTE_ITEM);
+    }
+
+    public static Uri getContentUriWithId(long id) {
+        return ContentUris.withAppendedId(URI_NOTES, id);
     }
 
     @Override
@@ -86,14 +92,18 @@ public class NotesContentProvider extends ContentProvider {
         }
     }
 
-    // TODO comments
+    // returns the MIME type corresponding to the given URI
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
         switch (MATCHER.match(uri)) {
             case CODE_NOTE_DIR:
+                // MIME type format: type/subtype
+                // vnd.android.cursor.dir/ - multiple items (type)
+                // com.example.rikharthu.contentproviderdemo.provider.notes - our custom item (subtype)
                 return "vnd.android.cursor.dir/" + AUTHORITY + "." + Note.TABLE_NAME;
             case CODE_NOTE_ITEM:
+                // single item
                 return "vnd.android.cursor.item/" + AUTHORITY + "." + Note.TABLE_NAME;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);

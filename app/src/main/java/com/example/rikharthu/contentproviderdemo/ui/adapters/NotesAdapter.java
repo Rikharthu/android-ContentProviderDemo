@@ -1,7 +1,6 @@
 package com.example.rikharthu.contentproviderdemo.ui.adapters;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -86,9 +85,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
             Timber.d("onCheckedChanged: " + isChecked);
             mNote.setFinished(isChecked);
+            new Thread(this::postNoteUpdate).start();
+        }
+
+        private void postNoteUpdate() {
             itemView.getContext().getContentResolver()
                     .update(
-                            Uri.parse(NotesContentProvider.URI_NOTES + "/" + mNote.getId()),
+                            NotesContentProvider.getContentUriWithId(mNote.getId()),
                             Note.toContentValues(mNote),
                             null, null);
         }

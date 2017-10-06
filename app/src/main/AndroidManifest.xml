@@ -5,6 +5,9 @@
     <!--a permission that a client is required to have in order to use our content provider -->
     <permission android:name="com.example.rikharthu.contentproviderdemo.READ_WRITE" />
 
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -25,7 +28,13 @@
             android:name=".data.NotesContentProvider"
             android:authorities="com.example.rikharthu.contentproviderdemo.provider"
             android:exported="true"
-            android:permission="com.example.rikharthu.contentproviderdemo.READ_WRITE" />
+            android:permission="com.example.rikharthu.contentproviderdemo.READ_WRITE">
+            <!--
+            More info about permissions
+            https://developer.android.com/guide/topics/manifest/path-permission-element.html
+            https://developer.android.com/guide/topics/providers/content-provider-creating.html#Permissions
+            -->
+        </provider>
 
     </application>
 

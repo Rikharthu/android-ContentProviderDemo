@@ -27,7 +27,7 @@ public class App extends Application {
     private void initializeDatabase() {
         mAppDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, DATABASE_NAME)
-                .allowMainThreadQueries() // temporary hack to allow dao queries on main thread. do not do in prod
+                /*.allowMainThreadQueries()*/ // temporary hack to allow dao queries on main thread. do not do in prod
                 .build();
     }
 
